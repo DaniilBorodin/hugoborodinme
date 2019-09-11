@@ -7,18 +7,8 @@ keywords = ["", ""]
 showFullContent = false
 tags = [""]
 title = "Чтение и проверка parquet файлов в HDFS c использованием Java"
++++
 
-+++
-+++
-title = "Чтение и проверка parquet файлов в HDFS c использованием Java"
-date = "2019-09-11"
-author = "Daniil Borodin"
-cover = ""
-tags = ["", ""]
-keywords = ["", ""]
-description = ""
-showFullContent = false
-+++
 
 
 Работая с HADOOP , тестировщику часто приходится валидировать полученные итоговые parquet файлы. Опишу как это делал я в автотестах. 
