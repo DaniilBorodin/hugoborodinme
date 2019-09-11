@@ -7,11 +7,9 @@ keywords = ["", ""]
 showFullContent = false
 tags = [""]
 title = "Чтение и проверка parquet файлов в HDFS c использованием Java"
+
 +++
-
-
-
-Работая с HADOOP , тестировщику часто приходится валидировать полученные итоговые parquet файлы. Опишу как это делал я в автотестах. 
+Работая с HADOOP , тестировщику часто приходится валидировать полученные итоговые parquet файлы. Опишу как это делал я в автотестах.
 
 Для начала несколько удобных команд HDFS File System Shell.
 
@@ -21,7 +19,7 @@ title = "Чтение и проверка parquet файлов в HDFS c исп�
 hdfs dfs -ls /path/to/parquets/
 ```
 
-Прочитать сожержимое parquet файла: 
+Прочитать сожержимое parquet файла:
 
 ```bash
 hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c000.snappy.parquet
@@ -29,12 +27,13 @@ hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c
 
 Помимо этих команд есть множество других полезных -cp , -copyToLocal, -stat и т.д. Подробнее можно посмотреть [тут](https://hadoop.apache.org/docs/r2.4.1/hadoop-project-dist/hadoop-common/FileSystemShell.html).
 
-Также часто бывает полезен [parquet-tools](http://central.maven.org/maven2/org/apache/parquet/parquet-tools/1.9.0/). 
+Также часто бывает полезен [parquet-tools](http://central.maven.org/maven2/org/apache/parquet/parquet-tools/1.9.0/).
 
 ```bash
  hadoop jar ~/parquet-tools-1.9.0.jar
 ```
-Умеет оказывать содержимое parquet , а также может делать merge. 
+
+Умеет оказывать содержимое parquet , а также может делать merge.
 
 В автотестах читаем и валидируем parquet используя [Apache Spark](https://spark.apache.org/). Для этого в pom файл нашего проекта на Maven добавим следующие:
 
@@ -47,6 +46,7 @@ hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c
             <version>2.3.0</version>
         </dependency>
 ```
+
 И библиотеку spark-sql:
 
 ```xml
@@ -58,14 +58,14 @@ hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c
         </dependency>
 ```
 
-В файл \env\default\tests.properties добавим адрес нашей HADOOP master node и путь к каталогу моделей.
+В файл \\env\\default\\tests.properties добавим адрес нашей HADOOP master node и путь к каталогу моделей.
 
 ```bash
 HADOOP_MASTER_NODE=127.0.0.1
 MODELS_PATH=me.borodin.qa.parquet.models.
 ```
 
-Вместо 127.0.0.1 ставим IP HADOOP ноды с которой собираетесь работать. Модель 
+Вместо 127.0.0.1 ставим IP HADOOP ноды с которой собираетесь работать. Модель
 
 Длаее пишем класс констант для дальнейшего использования в нашем проекте.
 
@@ -77,8 +77,20 @@ public class Constants {
     public static String HADOOP_MASTER_NODE = System.getenv("HADOOP_MASTER_NODE");
 }
 ```
+Допустим у нас есть parquet файл со следующей схемой:
 
-Затем напишем простой класс SparkManager который нам будет возвращать объект SparkSession для дальнейше работы:
+```bash
+[d_borodin@borodinme ~]$ hadoop jar ~/parquet-tools-1.9.0.jar schema /part-00000-5a9ffa26-9715-4513-a45d-00b84e981a5c-c000.snappy.parquet
+message spark_schema { 
+  required int32 companyID;
+  required binary comName (UTF8);
+  optional binary comDesc (UTF8);
+}
+```
+
+В models добаваляем наши POJO. 
+
+Затем напишем простой класс SparkManager который нам будет возвращать объект SparkSession для дальнейшей работы:
 
 ```java
 package me.borodin.qa.parquet;
@@ -130,5 +142,3 @@ public class SparkManager {
     }
 }
 ```
-
-
