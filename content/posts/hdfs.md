@@ -5,7 +5,7 @@ date = "2019-09-11"
 description = ""
 keywords = ["", ""]
 showFullContent = false
-tags = ["", ""]
+tags = [""]
 title = "Чтение и проверка parquet файлов в HDFS c использованием Java"
 
 +++
@@ -70,7 +70,7 @@ hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c
 
 В файл \env\default\tests.properties добавим адрес нашей HADOOP master node и путь к каталогу моделей.
 
-```
+```bash
 HADOOP_MASTER_NODE=127.0.0.1
 MODELS_PATH=me.borodin.qa.parquet.models.
 ```
