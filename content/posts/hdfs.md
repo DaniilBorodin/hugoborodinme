@@ -38,7 +38,6 @@ hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c
 В автотестах читаем и валидируем parquet используя [Apache Spark](https://spark.apache.org/). Для этого в pom файл нашего проекта на Maven добавим следующие:
 
 ```xml
-</dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -50,7 +49,7 @@ hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c
 И библиотеку spark-sql:
 
 ```xml
-<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
