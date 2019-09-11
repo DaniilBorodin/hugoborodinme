@@ -33,7 +33,7 @@ hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c
  hadoop jar ~/parquet-tools-1.9.0.jar
 ```
 
-Умеет оказывать содержимое parquet , а также может делать merge.
+Умеет показывать содержимое parquet , а также может делать merge.
 
 В автотестах читаем и валидируем parquet используя [Apache Spark](https://spark.apache.org/). Для этого в pom файл нашего проекта на Maven добавим следующие:
 
