@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+   {{ partial "head.html" . }}
+  <body>
+    <div class="container">
+      {{ partial "header.html" . }}
+    <main>
+      <h1>posts</h1>
+    <ul>	
+	{{ range first 3 .Pages }}
+	    <li>
+    		<a href="{{ .Permalink }}">[ {{ .Date.Format "2006-01-02" }} ] {{ .Title }}</a>
+	    </li>
+	    {{ end }}  	
+    </ul>
+    </main>
+    {{ partial "footer.html" . }}
+    </div>
+  </body>
+</html>

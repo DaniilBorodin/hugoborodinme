@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+   {{ partial "head.html" . }}
+  <body>
+    <div class="container">
+      {{ partial "header.html" . }}
+    <main>
+        <pre>
++--------+----------------+
+| Name   | Daniil Borodin |
++--------+----------------+
+| Age    | 39             |
++--------+----------------+
+        </pre>
+      {{ .Content }}
+    </main>
+    {{ partial "footer.html" . }}
+    </div>
+  </body>
+</html>

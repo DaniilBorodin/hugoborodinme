@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+   {{ partial "head.html" . }}
+  <body>
+    <div class="container">
+      {{ partial "header.html" . }}
+    <main>
+	<h1>[~]$ Title: {{ .Title }}</h1>
+        <h1>[~]$ Author: {{ .Params.author }}</h1>
+        {{ .Content }}
+    </main>
+    {{ partial "footer.html" . }}
+    </div>
+  </body>
+</html>
