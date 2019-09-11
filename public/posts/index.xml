@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on borodin.me</title>
+    <link>http://borodin.me/posts/</link>
+    <description>Recent content in Posts on borodin.me</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy; 2019 Daniil Borodin. Theme based on &lt;a href=&#39;https://github.com/b2a3e8/jekyll-theme-console&#39;&gt;b2a3e8&lt;/a&gt;</copyright>
+    <lastBuildDate>Wed, 11 Sep 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://borodin.me/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Чтение и проверка parquet файлов в HDFS c использованием Java</title>
+      <link>http://borodin.me/posts/hdfs/</link>
+      <pubDate>Wed, 11 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://borodin.me/posts/hdfs/</guid>
+      <description>Работая с HADOOP , тестировщику часто приходится валидировать полученные итоговые parquet файлы. Опишу как это делал я в автотестах.
+Для начала несколько удобных команд HDFS File System Shell.
+Посмотреть содержимое папки в HDFS:
+hdfs dfs -ls /path/to/parquets/ Прочитать сожержимое parquet файла:
+hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c000.snappy.parquet Помимо этих команд есть множество других полезных -cp , -copyToLocal, -stat и т.д. Подробнее можно посмотреть тут.
+Также часто бывает полезен parquet-tools.
+hadoop jar ~/parquet-tools-1.9.0.jar Умеет оказывать содержимое parquet , а также может делать merge.</description>
+    </item>
+    
+    <item>
+      <title>Для любителей чтения</title>
+      <link>http://borodin.me/posts/goodrears/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://borodin.me/posts/goodrears/</guid>
+      <description>Очень удобный сайт для ведение списков прочтённого и к прочтению. Если вы любите читать, то вам будет очень полезен сайт goodreads.com . Сайт очень хорошо помогает организовать список to-read. Если вы заметили книгу и решили её прочесть , но боитесь, что забудите о ней, то просто отметьте её на этом сайте.
+Всегда сможете открыть свой список to-read и выбрать какую книгу прочесть в данный момент. К тому же на сайте очень много людей с похожими книжными вкусами и можно воспользоваться функцией рекомендации книг.</description>
+    </item>
+    
+    <item>
+      <title>Java Features</title>
+      <link>http://borodin.me/posts/java_features/</link>
+      <pubDate>Wed, 28 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://borodin.me/posts/java_features/</guid>
+      <description>Полезные в автотестировании вещи из разных версий Java В разных версия Java от 8 до 12 добавлялись полезные фичи. К сожалению, на многих проектах в которых я участвовал , используют только Java 8.
+1. List.of() В Java 9 у List добавлен метод .of() который возвращает неизменяемый (immutable) список. До появления этого метода приходилось писать следующее:
+List&amp;lt;String&amp;gt; listElements = Arrays.asList(&amp;#34;one&amp;#34;, &amp;#34;two&amp;#34;, &amp;#34;three&amp;#34;); Тоже самое используя метод .of():
+List&amp;lt;String&amp;gt; listElements = List.</description>
+    </item>
+    
+  </channel>
+</rss>

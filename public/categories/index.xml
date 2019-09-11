@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on borodin.me</title>
+    <link>http://borodin.me/categories/</link>
+    <description>Recent content in Categories on borodin.me</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy; 2019 Daniil Borodin. Theme based on &lt;a href=&#39;https://github.com/b2a3e8/jekyll-theme-console&#39;&gt;b2a3e8&lt;/a&gt;</copyright>
+    
+	<atom:link href="http://borodin.me/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+  </channel>
+</rss>

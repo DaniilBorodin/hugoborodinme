@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+   <head>
+  <meta charset="utf-8">  
+  <title>Java Features</title>    
+  <link rel="stylesheet" type="text/css" href="/css/mozes.css">
+</head>
+  <body>
+    <div class="container">
+      <header>
+    <nav class="menu">
+	<ul>
+    
+    <li><a href="/">/</a></li>
+    
+    <li><a href="/about/">/about</a></li>
+    
+    <li><a href="/cv/">/cv</a></li>
+    
+</ul>
+    </nav>  
+</header>
+    <main>
+	<h1>[~]$ Title: Java Features</h1>
+        <h1>[~]$ Author: Daniil Borodin</h1>
+        
+
+<h1 id="полезные-в-автотестировании-вещи-из-разных-версий-java">Полезные в автотестировании вещи из разных версий Java</h1>
+
+<p>В разных версия Java от 8 до 12 добавлялись полезные фичи. К сожалению, на многих проектах в которых я участвовал , используют только Java 8.</p>
+
+<h2 id="1-list-of">1. List.of()</h2>
+
+<p>В Java 9 у List добавлен метод <strong>.of()</strong> который возвращает неизменяемый (immutable) список.
+До появления этого метода приходилось писать следующее:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">listElements</span> <span style="color:#f92672">=</span> Arrays.<span style="color:#a6e22e">asList</span>(<span style="color:#e6db74">&#34;one&#34;</span>, <span style="color:#e6db74">&#34;two&#34;</span>, <span style="color:#e6db74">&#34;three&#34;</span>);</code></pre></div>
+<p>Тоже самое используя метод <strong>.of()</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">listElements</span> <span style="color:#f92672">=</span> List.<span style="color:#a6e22e">of</span>(<span style="color:#e6db74">&#34;one&#34;</span>, <span style="color:#e6db74">&#34;two&#34;</span>, <span style="color:#e6db74">&#34;three&#34;</span>);</code></pre></div>
+<p>Кстати этот метод не позволяет добавлять в List нулевые элементы (null) выкидывая <em>NullPointerException</em>, что тоже иногда бывает удобно.</p>
+
+<h2 id="2-foreach">2. forEach()</h2>
+
+<p>Еще одна удобность из Java 8. Это метод <strong>forEach()</strong> у коллекций.
+При его использовании нет не обходимости писать блоки <strong>for</strong>.
+Как было до появления этого метода:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">newListElements</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;</span>();
+    List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">listElements</span> <span style="color:#f92672">=</span> Arrays.<span style="color:#a6e22e">asList</span>(<span style="color:#e6db74">&#34;one&#34;</span>, <span style="color:#e6db74">&#34;two&#34;</span>, <span style="color:#e6db74">&#34;three&#34;</span>);
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">i</span><span style="color:#f92672">=</span>0; i<span style="color:#f92672">&lt;</span>listElements.<span style="color:#a6e22e">size</span>(); i<span style="color:#f92672">++</span>) {
+        newListElements.<span style="color:#a6e22e">add</span>(listElements.<span style="color:#a6e22e">get</span>(i));
+    }</code></pre></div>
+<p>Можно было сократить запись:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">newListElements</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;</span>();
+    List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">listElements</span> <span style="color:#f92672">=</span> Arrays.<span style="color:#a6e22e">asList</span>(<span style="color:#e6db74">&#34;one&#34;</span>, <span style="color:#e6db74">&#34;two&#34;</span>, <span style="color:#e6db74">&#34;three&#34;</span>);
+    <span style="color:#66d9ef">for</span>(String <span style="color:#a6e22e">element</span> <span style="color:#f92672">:</span> listElements){
+            newListElements.<span style="color:#a6e22e">add</span>(element);
+        }</code></pre></div>
+<p>Но при использовании <strong>forEach()</strong> мы можем сделать тоже самое но намного короче:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">listElements.<span style="color:#a6e22e">forEach</span>(element <span style="color:#f92672">-&gt;</span> newListElements.<span style="color:#a6e22e">add</span>(element));</code></pre></div>
+<p>И даже эту запись мы можем еще больше упростить используя формат <strong>object :: method</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">listElements.<span style="color:#a6e22e">forEach</span>(newListElements<span style="color:#f92672">::</span>add);</code></pre></div>
+<p>Если для элементов списка необходимо выполнить несколько действий , то можно спользовать запись с фигурными скобками:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    listElements.<span style="color:#a6e22e">forEach</span>(element <span style="color:#f92672">-&gt;</span> {
+            newListElements.<span style="color:#a6e22e">add</span>(element)
+            <span style="color:#75715e">//Выполняем другие действия с елементами списка
+</span><span style="color:#75715e"></span>    });</code></pre></div>
+<h2 id="3-streams">3. Streams</h2>
+
+<p>Очень полезное и необходимое нововведение в JAVA 8. В автотестировании , где очень часто приходится работать с разного рода списками и их преобразованиями, вещь незаменимая.</p>
+
+<p>Простой пример демонстирующий удобство <strong>Streams</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">List</span><span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getAllTasks</span>(){
+
+    List<span style="color:#f92672">&lt;</span>WebElement<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">elementList</span> <span style="color:#f92672">=</span> driver.<span style="color:#a6e22e">findElements</span>(tasksLocator);
+    List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">taskList</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList();
+
+    <span style="color:#66d9ef">for</span>(WebElement <span style="color:#a6e22e">element</span> <span style="color:#f92672">:</span> elementList){
+        taskList.<span style="color:#a6e22e">add</span>(element.<span style="color:#a6e22e">getText</span>());
+    }
+    <span style="color:#66d9ef">return</span> taskList;
+}</code></pre></div>
+<p>Раньше приходилось писать отдельный <strong>for</strong> для заполнения нового списка элементами.
+ Тот же самый пример с использованием <strong>Streams</strong>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#a6e22e">List</span><span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getAllTasks</span>(){
+
+    <span style="color:#66d9ef">return</span> driver.<span style="color:#a6e22e">findElements</span>(tasksLocator)
+            .<span style="color:#a6e22e">stream</span>()
+            .<span style="color:#a6e22e">map</span>(WebElement<span style="color:#f92672">::</span>getText)
+            .<span style="color:#a6e22e">collect</span>(Collectors.<span style="color:#a6e22e">toList</span>());
+}</code></pre></div>
+    </main>
+    <footer>
+    &copy; 2019 Daniil Borodin. Theme based on <a href='https://github.com/b2a3e8/jekyll-theme-console'>b2a3e8</a>     
+</footer>
+    </div>
+  </body>
+</html>

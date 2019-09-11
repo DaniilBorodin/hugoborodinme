@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+   <head>
+  <meta charset="utf-8">  
+  <title>Чтение и проверка parquet файлов в HDFS c использованием Java</title>    
+  <link rel="stylesheet" type="text/css" href="/css/mozes.css">
+</head>
+  <body>
+    <div class="container">
+      <header>
+    <nav class="menu">
+	<ul>
+    
+    <li><a href="/">/</a></li>
+    
+    <li><a href="/about/">/about</a></li>
+    
+    <li><a href="/cv/">/cv</a></li>
+    
+</ul>
+    </nav>  
+</header>
+    <main>
+	<h1>[~]$ Title: Чтение и проверка parquet файлов в HDFS c использованием Java</h1>
+        <h1>[~]$ Author: Daniil Borodin</h1>
+        <p>Работая с HADOOP , тестировщику часто приходится валидировать полученные итоговые parquet файлы. Опишу как это делал я в автотестах.</p>
+
+<p>Для начала несколько удобных команд HDFS File System Shell.</p>
+
+<p>Посмотреть содержимое папки в HDFS:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">hdfs dfs -ls /path/to/parquets/</code></pre></div>
+<p>Прочитать сожержимое parquet файла:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c000.snappy.parquet</code></pre></div>
+<p>Помимо этих команд есть множество других полезных -cp , -copyToLocal, -stat и т.д. Подробнее можно посмотреть <a href="https://hadoop.apache.org/docs/r2.4.1/hadoop-project-dist/hadoop-common/FileSystemShell.html">тут</a>.</p>
+
+<p>Также часто бывает полезен <a href="http://central.maven.org/maven2/org/apache/parquet/parquet-tools/1.9.0/">parquet-tools</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> hadoop jar ~/parquet-tools-1.9.0.jar</code></pre></div>
+<p>Умеет оказывать содержимое parquet , а также может делать merge.</p>
+
+<p>В автотестах читаем и валидируем parquet используя <a href="https://spark.apache.org/">Apache Spark</a>. Для этого в pom файл нашего проекта на Maven добавим следующие:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;/dependency&gt;</span>
+        <span style="color:#75715e">&lt;!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core --&gt;</span>
+        <span style="color:#f92672">&lt;dependency&gt;</span>
+            <span style="color:#f92672">&lt;groupId&gt;</span>org.apache.spark<span style="color:#f92672">&lt;/groupId&gt;</span>
+            <span style="color:#f92672">&lt;artifactId&gt;</span>spark-core_2.11<span style="color:#f92672">&lt;/artifactId&gt;</span>
+            <span style="color:#f92672">&lt;version&gt;</span>2.3.0<span style="color:#f92672">&lt;/version&gt;</span>
+        <span style="color:#f92672">&lt;/dependency&gt;</span></code></pre></div>
+<p>И библиотеку spark-sql:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql --&gt;</span>
+        <span style="color:#f92672">&lt;dependency&gt;</span>
+            <span style="color:#f92672">&lt;groupId&gt;</span>org.apache.spark<span style="color:#f92672">&lt;/groupId&gt;</span>
+            <span style="color:#f92672">&lt;artifactId&gt;</span>spark-sql_2.11<span style="color:#f92672">&lt;/artifactId&gt;</span>
+            <span style="color:#f92672">&lt;version&gt;</span>2.3.0<span style="color:#f92672">&lt;/version&gt;</span>
+        <span style="color:#f92672">&lt;/dependency&gt;</span></code></pre></div>
+<p>В файл \env\default\tests.properties добавим адрес нашей HADOOP master node.</p>
+
+<pre><code>HADOOP_MASTER_NODE=127.0.0.1
+</code></pre>
+
+<p>Длаее пишем класс констант для дальнейшего использования в нашем проекте.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> <span style="color:#a6e22e">me</span>.<span style="color:#a6e22e">borodin</span>.<span style="color:#a6e22e">qa</span>.<span style="color:#a6e22e">parquet</span>;
+
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">class</span> Constants {
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">static</span> String <span style="color:#a6e22e">HADOOP_MASTER_NODE</span> <span style="color:#f92672">=</span> System.<span style="color:#a6e22e">getenv</span>(<span style="color:#e6db74">&#34;HADOOP_MASTER_NODE&#34;</span>);
+}</code></pre></div>
+<p>Затем напишем простой класс SparkManager который нам будет возвращать объект SparkSession для дальнейше работы:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">package</span> <span style="color:#a6e22e">me</span>.<span style="color:#a6e22e">borodin</span>.<span style="color:#a6e22e">qa</span>.<span style="color:#a6e22e">parquet</span>;
+
+<span style="color:#f92672">import</span> <span style="color:#a6e22e">org</span>.<span style="color:#a6e22e">apache</span>.<span style="color:#a6e22e">spark</span>.<span style="color:#a6e22e">SparkConf</span>;
+<span style="color:#f92672">import</span> <span style="color:#a6e22e">org</span>.<span style="color:#a6e22e">apache</span>.<span style="color:#a6e22e">spark</span>.<span style="color:#a6e22e">sql</span>.<span style="color:#a6e22e">SparkSession</span>;
+
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">class</span> SparkManager {
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SparkSession</span> startSparkSession() {
+        <span style="color:#66d9ef">return</span> createSparkSession();
+    }
+
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> closeSparkSession(SparkSession <span style="color:#a6e22e">session</span>) {
+        session.<span style="color:#a6e22e">close</span>();
+    }
+
+    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">SparkSession</span> createSparkSession() {
+        SparkConf <span style="color:#a6e22e">sparkConf</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SparkConf()
+                .<span style="color:#a6e22e">setMaster</span>(<span style="color:#e6db74">&#34;local[*]&#34;</span>)
+                .<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#34;spark.executor.memory&#34;</span>, <span style="color:#e6db74">&#34;1G&#34;</span>)
+                .<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#34;spark.driver.memory&#34;</span>, <span style="color:#e6db74">&#34;1G&#34;</span>)
+                .<span style="color:#a6e22e">set</span>(<span style="color:#e6db74">&#34;spark.sql.shuffle.partitions&#34;</span>, <span style="color:#e6db74">&#34;1&#34;</span>)
+                .<span style="color:#a6e22e">setAppName</span>(<span style="color:#e6db74">&#34;myappname&#34;</span>);
+
+        <span style="color:#66d9ef">return</span> SparkSession.<span style="color:#a6e22e">builder</span>().<span style="color:#a6e22e">config</span>(sparkConf).<span style="color:#a6e22e">getOrCreate</span>();
+    }
+}</code></pre></div>
+<p>Далее пишем класс в котором непосредственно будут методы чтения parquet файлов:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">void</span> readParquetFromRemoteHdfs(String <span style="color:#a6e22e">filePath</span>, String <span style="color:#a6e22e">dataModel</span>) {
+    
+        String <span style="color:#a6e22e">pathToParquet</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;hdfs://&#34;</span> <span style="color:#f92672">+</span> Constants.<span style="color:#a6e22e">HADOOP_MASTER_NODE</span> <span style="color:#f92672">+</span> filePath;
+        String <span style="color:#a6e22e">modelClassName</span> <span style="color:#f92672">=</span> Constants.<span style="color:#a6e22e">MODELS_PATH</span> <span style="color:#f92672">+</span> dataModel;
+        Map<span style="color:#f92672">&lt;</span>String, Dataset<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">parquetReaults</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;</span>String, Dataset<span style="color:#f92672">&gt;</span>();
+
+        Dataset <span style="color:#a6e22e">parquetDataset</span> <span style="color:#f92672">=</span> sparkSession
+                .<span style="color:#a6e22e">read</span>()
+                .<span style="color:#a6e22e">parquet</span>(pathToParquet)
+                .<span style="color:#a6e22e">as</span>(Encoders.<span style="color:#a6e22e">bean</span>(Class.<span style="color:#a6e22e">forName</span>(modelClassName)));
+        parquetDataset.<span style="color:#a6e22e">printSchema</span>();
+
+        parquetReaults.<span style="color:#a6e22e">put</span>(dataModel, parquetDataset);
+        logger.<span style="color:#a6e22e">info</span>(String.<span style="color:#a6e22e">format</span>(<span style="color:#e6db74">&#34;Parquet-файл %s прочитан и соответствует модели %s&#34;</span>, filePath, dataModel));
+    }
+}</code></pre></div>
+    </main>
+    <footer>
+    &copy; 2019 Daniil Borodin. Theme based on <a href='https://github.com/b2a3e8/jekyll-theme-console'>b2a3e8</a>     
+</footer>
+    </div>
+  </body>
+</html>

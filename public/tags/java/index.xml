@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java on borodin.me</title>
+    <link>http://borodin.me/tags/java/</link>
+    <description>Recent content in java on borodin.me</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>&amp;copy; 2019 Daniil Borodin. Theme based on &lt;a href=&#39;https://github.com/b2a3e8/jekyll-theme-console&#39;&gt;b2a3e8&lt;/a&gt;</copyright>
+    <lastBuildDate>Wed, 28 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://borodin.me/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Java Features</title>
+      <link>http://borodin.me/posts/java_features/</link>
+      <pubDate>Wed, 28 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://borodin.me/posts/java_features/</guid>
+      <description>Полезные в автотестировании вещи из разных версий Java В разных версия Java от 8 до 12 добавлялись полезные фичи. К сожалению, на многих проектах в которых я участвовал , используют только Java 8.
+1. List.of() В Java 9 у List добавлен метод .of() который возвращает неизменяемый (immutable) список. До появления этого метода приходилось писать следующее:
+List&amp;lt;String&amp;gt; listElements = Arrays.asList(&amp;#34;one&amp;#34;, &amp;#34;two&amp;#34;, &amp;#34;three&amp;#34;); Тоже самое используя метод .of():
+List&amp;lt;String&amp;gt; listElements = List.</description>
+    </item>
+    
+  </channel>
+</rss>

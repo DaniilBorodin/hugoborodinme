@@ -1,0 +1,27 @@
+baseURL = "http://borodin.me"
+title = "borodin.me"
+theme = "mozes"
+paginate = 5
+copyright = "&copy; 2019 Daniil Borodin. Theme based on <a href='https://github.com/b2a3e8/jekyll-theme-console'>b2a3e8</a>"
+PygmentsCodeFences = true
+PygmentsStyle = "monokai"
+
+[[menu.main]]
+        name = "/"
+        weight = -130
+        identifier = "/"
+        url = "/"
+
+[[menu.main]]
+        name = "/about"
+        weight = -120
+        identifier = "/about"
+        url = "/about/"
+
+[[menu.main]]
+        name = "/cv"
+        weight = -110
+        identifier = "/cv"
+        url = "/cv/"
+[params]
+    basedLink = "https;//github.com/b2a3e8/jekyll-theme-console"

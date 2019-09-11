@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://borodin.me/</loc>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/posts/</loc>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/tags/</loc>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/posts/hdfs/</loc>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/posts/goodrears/</loc>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/tags/java/</loc>
+    <lastmod>2019-08-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/posts/java_features/</loc>
+    <lastmod>2019-08-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/about/</loc>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/cv/</loc>
+  </url>
+  
+  <url>
+    <loc>http://borodin.me/categories/</loc>
+  </url>
+  
+</urlset>
