@@ -1,4 +1,15 @@
 +++
+author = "Daniil Borodin"
+cover = ""
+date = "2019-09-11"
+description = ""
+keywords = ["", ""]
+showFullContent = false
+tags = ["", ""]
+title = "Чтение и проверка parquet файлов в HDFS c использованием Java"
+
++++
++++
 title = "Чтение и проверка parquet файлов в HDFS c использованием Java"
 date = "2019-09-11"
 author = "Daniil Borodin"
@@ -57,11 +68,14 @@ hdfs dfs -cat /path/to/parquet/part-00000-2e2c232a-a50c-4885-aba0-53d10bb47b75-c
         </dependency>
 ```
 
-В файл \env\default\tests.properties добавим адрес нашей HADOOP master node.
+В файл \env\default\tests.properties добавим адрес нашей HADOOP master node и путь к каталогу моделей.
 
 ```
 HADOOP_MASTER_NODE=127.0.0.1
+MODELS_PATH=me.borodin.qa.parquet.models.
 ```
+
+Вместо 127.0.0.1 ставим IP HADOOP ноды с которой собираетесь работать. Модель 
 
 Длаее пишем класс констант для дальнейшего использования в нашем проекте.
 
