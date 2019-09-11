@@ -80,15 +80,29 @@ public class Constants {
 Допустим у нас есть parquet файл со следующей схемой:
 
 ```bash
-[d_borodin@borodinme ~]$ hadoop jar ~/parquet-tools-1.9.0.jar schema /part-00000-5a9ffa26-9715-4513-a45d-00b84e981a5c-c000.snappy.parquet
+[d_borodin@borodinme ~]$ hadoop jar ~/parquet-tools-1.9.0.jar schema /part-00000.snappy.parquet
 message spark_schema { 
   required int32 companyID;
-  required binary comName (UTF8);
-  optional binary comDesc (UTF8);
+  required binary companyName (UTF8);
+  optional binary companyDesc (UTF8);
 }
 ```
+В models добаваляем POJO для данного parquet файла. 
 
-В models добаваляем наши POJO. 
+```java
+package me.borodin.qa.parquet.models;
+
+import lombok.Data;
+
+@Data
+
+public class Company {
+
+    private Integer companyID;
+    private String companyName;
+    private String companyDesc;   
+}
+```
 
 Затем напишем простой класс SparkManager который нам будет возвращать объект SparkSession для дальнейшей работы:
 
