@@ -76,6 +76,7 @@ public class Constants {
     public static String HADOOP_MASTER_NODE = System.getenv("HADOOP_MASTER_NODE");
 }
 ```
+
 Допустим у нас есть parquet файл со следующей схемой:
 
 ```bash
@@ -86,7 +87,8 @@ message spark_schema {
   optional binary companyDesc (UTF8);
 }
 ```
-В models добаваляем POJO для данного parquet файла. 
+
+В models добаваляем POJO для данного parquet файла.
 
 ```java
 package me.borodin.qa.parquet.models;
@@ -94,7 +96,6 @@ package me.borodin.qa.parquet.models;
 import lombok.Data;
 
 @Data
-
 public class Company {
 
     private Integer companyID;
@@ -142,7 +143,7 @@ public class SparkManager {
     
         String pathToParquet = "hdfs://" + Constants.HADOOP_MASTER_NODE + filePath;
         String modelClassName = Constants.MODELS_PATH + dataModel;
-        Map<String, Dataset> parquetReaults = new HashMap<String, Dataset>();
+        Map<String, Dataset> parquetResults = new HashMap<String, Dataset>();
 
         Dataset parquetDataset = sparkSession
                 .read()
@@ -150,7 +151,7 @@ public class SparkManager {
                 .as(Encoders.bean(Class.forName(modelClassName)));
         parquetDataset.printSchema();
 
-        parquetReaults.put(dataModel, parquetDataset);
+        parquetResults.put(dataModel, parquetDataset);
         logger.info(String.format("Parquet-файл %s прочитан и соответствует модели %s", filePath, dataModel));
     }
 }
